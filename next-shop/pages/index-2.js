@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Title from "../components/Title";
 import { getProducts } from "../lib/products";
 
@@ -7,17 +7,13 @@ import { getProducts } from "../lib/products";
 //   { id: 1, title: "First Product" },
 //   { id: 2, title: "Second Product" },
 // ];
-export async function getStaticProps() {
-  const products = await getProducts();
-  return {
-    props: {
-      products,
-    },
-    revalidate: 5 * 60,
-  };
-}
 
-export default function Home({ products }) {
+export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
   return (
     <>
       <Head>
@@ -27,11 +23,7 @@ export default function Home({ products }) {
         <Title>Next Shop</Title>
         <ul>
           {products.map((product) => {
-            return (
-              <li key={product.id}>
-                <Link href={`/products/${product.id}`}>{product.title}</Link>
-              </li>
-            );
+            return <li key={product.id}>{product.title}</li>;
           })}
         </ul>
       </main>
