@@ -1,13 +1,16 @@
 import Head from "next/head";
+import EventList from "../components/events/event-list";
+import { getFeaturedEvents } from "../dummy-data";
 
 function HomePage() {
+  const featuredEvents = getFeaturedEvents();
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
       <main>
-        <h1>Home</h1>
+        <EventList items={featuredEvents} />
       </main>
     </>
   );
